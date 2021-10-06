@@ -28,7 +28,6 @@ class TasksController < ApplicationController
     end
     
     def update
-        
         if @task.update(task_params)
             flash[:success] = 'Task が正常に更新されました'
             redirect_to @task
@@ -45,17 +44,17 @@ class TasksController < ApplicationController
         redirect_to tasks_url
     end
     
-end
+#ストロングパラメータなどのprivateメソッドは、Controllerクラス内に記述
+    private
+    
+    #共通化
+    def set_task
+        @task = Task.find(params[:id])
+    end
+    
+    #Strong Parameter
+    def task_params
+        params.require(:task).permit(:content, :status)
+    end
 
-
-private
-
-#共通化
-def set_task
-    @task = Task.find(params[:id])
-end
-
-#Strong Parameter
-def task_params
-    params.require(:task).permit(:content, :status)
 end
