@@ -1,15 +1,11 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:show, :edit]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
   def index
-
-    if logged_in?
-      @task = current_user.tasks.build
-#      @tasks = Task.all
-      @tasks = current_user.tasks.order(id: :desc)
-    end
+    @task = current_user.tasks.build
+    @tasks = current_user.tasks.order(id: :desc)
   end
   
   def show
@@ -20,15 +16,6 @@ class TasksController < ApplicationController
   end
   
   def create
-   # @task = Task.new(task_params)
-   # 
-   # if @task.save
-   #   flash[:success] = 'Task が正常に登録されました'
-   #  redirect_to @task
-   #else
-   #   flash.now[:danger] = 'Task が登録されませんでした'
-   #   render :new
-   # end
    @task = current_user.tasks.build(task_params)
     if @task.save
      flash[:success] = 'タスクが正常に登録されました'
@@ -59,24 +46,11 @@ class TasksController < ApplicationController
       redirect_to tasks_url
   end
   
-#ストロングパラメータなどのprivateメソッドは、Controllerクラス内に記述
   private
   
   #共通化
   def set_task
-#      mytask_ids = current_user.tasks.pluck(:id)
-#      # = [1,2,5,6,8]
-#  
-#      
-#      #current_user.tasks.each do |task|
-#      #  if task.id == params[:id]
-#      #end
-##binding.pry      
-#      if mytask_ids.blank? || mytask_ids.exclude?(params[:id])
-#        redirect_to root_url
-#     else
-        @task = Task.find(params[:id])
-#      end
+    @task = Task.find(params[:id])
   end
   
   #Strong Parameter
