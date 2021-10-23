@@ -20,7 +20,7 @@ class TasksController < ApplicationController
      redirect_to root_url
     else
       flash.now[:danger] = 'タスクの登録に失敗しました'
-      render 'tasks/index'
+      render :new
     end
   end
   
